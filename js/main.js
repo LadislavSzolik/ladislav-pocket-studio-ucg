@@ -40,10 +40,25 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!playButton) return;
 
     // Show the real YouTube thumbnail behind the play button, so the grid
-    // reads as an actual reel rather than blank dark cards.
+    // reads as an actual reel rather than blank dark cards. Try the
+    // high-res thumbnail first (1280x720); not every video has one, so
+    // fall back to the smaller default if it's missing.
     var thumbId = embed.getAttribute('data-video-id');
     if (thumbId) {
-      embed.style.backgroundImage = 'url(https://i.ytimg.com/vi/' + encodeURIComponent(thumbId) + '/hqdefault.jpg)';
+      var hiRes = 'https://i.ytimg.com/vi/' + encodeURIComponent(thumbId) + '/maxresdefault.jpg';
+      var loRes = 'https://i.ytimg.com/vi/' + encodeURIComponent(thumbId) + '/hqdefault.jpg';
+
+      var probe = new Image();
+      probe.onload = function () {
+        // When maxresdefault doesn't exist, YouTube still returns a 200
+        // but with a tiny 120x90 grey placeholder instead of a real photo.
+        var isRealHiRes = probe.naturalWidth > 120;
+        embed.style.backgroundImage = 'url(' + (isRealHiRes ? hiRes : loRes) + ')';
+      };
+      probe.onerror = function () {
+        embed.style.backgroundImage = 'url(' + loRes + ')';
+      };
+      probe.src = hiRes;
     }
 
     playButton.addEventListener('click', function () {
