@@ -501,7 +501,7 @@ textarea:focus-visible {
     padding-bottom: 56px;
     gap: 40px;
   }
-  .hero-frame { max-width: 340px; margin: 0 auto; }
+  .hero-frame { width: 100%; max-width: 340px; margin: 0 auto; }
   .reel-grid { grid-template-columns: repeat(2, 1fr); }
   .services-grid { grid-template-columns: 1fr; }
   .contact { grid-template-columns: 1fr; padding-top: 64px; padding-bottom: 72px; gap: 36px; }
