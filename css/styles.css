@@ -179,6 +179,11 @@ textarea:focus-visible {
   gap: 28px;
   flex-wrap: wrap;
 }
+.hero-noscript-email {
+  margin-top: 14px;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
 .hero-meta-item {
   text-decoration: none;
   font-weight: 500;

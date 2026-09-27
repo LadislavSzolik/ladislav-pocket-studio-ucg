@@ -7,6 +7,23 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+  /* ---------- 0) Email links (kept out of the HTML/JS source as a
+     plain "user@domain" string) ----------
+     Scrapers that harvest spam targets almost always just download
+     the page's static HTML/JS and regex it for an "@" pattern — they
+     don't run a full browser. Building the address here means the
+     literal string never sits in any file; it only exists once this
+     script actually runs in a visitor's browser. This does nothing
+     against a scraper sophisticated enough to render the page like a
+     browser, but that's a small minority of what actually harvests
+     addresses in the wild. Every ".js-email-link" (hero + footer) is
+     wired up from here.
+  ---------------------------------------------------------- */
+  var emailAddress = ['ladislav', 'studio'].join('.') + '@' + ['proton', 'me'].join('.');
+  document.querySelectorAll('.js-email-link').forEach(function (link) {
+    link.href = 'mailto:' + emailAddress;
+  });
+
   /* ---------- 1) Mobile nav ---------- */
   var toggle = document.getElementById('navToggle');
   var nav = document.getElementById('primaryNav');
@@ -107,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         })
         .catch(function () {
-          status.textContent = "Something went wrong sending that — please email ladislav.studio@proton.me directly.";
+          status.textContent = "Something went wrong sending that — please email " + emailAddress + " directly.";
           status.setAttribute('data-state', 'error');
         })
         .finally(function () {
